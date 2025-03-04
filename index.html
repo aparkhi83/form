@@ -1,76 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Form Submission</title>
     <style>
+      :root {
+        --bg-primary: #121212;
+        --bg-secondary: #1e1e1e;
+        --text-primary: #e0e0e0;
+        --text-secondary: #b0b0b0;
+        --accent-color: #81c784;
+        --accent-hover: #66bb6a;
+        --border-color: #444;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
       body {
-        font-family: Arial, sans-serif;
+        font-family: 'Inter', Arial, sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        padding: 20px;
+      }
+
+      .container {
         max-width: 500px;
         margin: 40px auto;
-        padding: 20px;
-        background-color: #f4f4f4;
-      }
-      .container {
-        background-color: white;
+        background-color: var(--bg-secondary);
         padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(255, 255, 255, 0.05);
       }
+
       h2 {
         text-align: center;
-        color: #333;
+        color: var(--text-primary);
+        margin-bottom: 25px;
+        font-weight: 600;
       }
+
       .form-group {
         margin-bottom: 20px;
+        position: relative;
       }
+
       label {
         display: block;
-        margin-bottom: 5px;
-        color: #666;
+        margin-bottom: 8px;
+        color: var(--text-secondary);
+        font-weight: 500;
       }
-      input,
-      textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box;
-      }
-      textarea {
-        resize: vertical;
-        min-height: 100px;
-      }
-      .submit-btn {
+
+      input, 
+      textarea, 
+      select {
         width: 100%;
         padding: 12px;
-        background-color: #4caf50;
-        color: white;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        outline: none;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      input:focus, 
+      textarea:focus, 
+      select:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: var(--accent-color);
+        color: var(--bg-primary);
         border: none;
-        border-radius: 4px;
+        border-radius: 8px;
         cursor: pointer;
         font-size: 16px;
-        transition: background-color 0.3s ease;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.1s;
       }
+
       .submit-btn:hover {
-        background-color: #45a049;
+        background-color: var(--accent-hover);
       }
+
+      .submit-btn:active {
+        transform: scale(0.98);
+      }
+
       #status-message {
         margin-top: 20px;
         text-align: center;
-        padding: 10px;
-        border-radius: 4px;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 500;
       }
+
       .success {
-        background-color: #dff0d8;
-        color: #3c763d;
-        border: 1px solid #d6e9c6;
+        background-color: rgba(76, 175, 80, 0.2);
+        color: #81c784;
+        border: 1px solid rgba(76, 175, 80, 0.3);
       }
+
       .error {
-        background-color: #f2dede;
-        color: #a94442;
-        border: 1px solid #ebccd1;
+        background-color: rgba(244, 67, 54, 0.2);
+        color: #ef5350;
+        border: 1px solid rgba(244, 67, 54, 0.3);
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          width: 95%;
+          margin: 20px auto;
+          padding: 20px;
+        }
       }
     </style>
   </head>
@@ -80,23 +139,23 @@
       <form id="submitForm" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" required />
+            <input type="text" id="name" name="name" required placeholder="Enter your full name" />
         </div>
     
         <div class="form-group">
             <label for="rollno">Roll number</label>
-            <input type="text" id="rollno" name="rollno" required />
+            <input type="text" id="rollno" name="rollno" required placeholder="Enter your roll number" />
         </div>
     
         <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required />
+            <input type="email" id="email" name="email" required placeholder="Enter your email" />
         </div>
     
         <div class="form-group">
             <label for="attending">Will you be able to attend?</label>
             <select id="attending" name="attending" required>
-                <option value="" disabled selected>Select an option</option>
+                <option value="" disabled selected>Select attendance</option>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
             </select>
@@ -104,12 +163,12 @@
     
         <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" />
+            <input type="tel" id="phone" name="phone" placeholder="Optional" />
         </div>
     
         <div class="form-group">
             <label for="message">Any message for your juniors?</label>
-            <textarea id="message" name="message" required></textarea>
+            <textarea id="message" name="message" required placeholder="Write your message here..."></textarea>
         </div>
     
         <div class="form-group">
@@ -118,61 +177,58 @@
         </div>
     
         <button type="submit" class="submit-btn">Submit</button>
-    </form>
+      </form>
     
-    <div id="status-message"></div>
-    
+      <div id="status-message"></div>
     </div>
 
     <script>
     document
-  .getElementById("submitForm")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
+      .getElementById("submitForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
 
-    const form = e.target;
-    const statusMessage = document.getElementById("status-message");
-    const scriptURL =
-      "https://script.google.com/macros/s/AKfycbytUkL0gqoIV2_9DZHgxbmSy9s97kb2umr-eUs0pXMVbvPSgZh3AXLffR74HipYv9lh/exec";
+        const form = e.target;
+        const statusMessage = document.getElementById("status-message");
+        const scriptURL =
+          "https://script.google.com/macros/s/AKfycbytUkL0gqoIV2_9DZHgxbmSy9s97kb2umr-eUs0pXMVbvPSgZh3AXLffR74HipYv9lh/exec";
 
-    statusMessage.textContent = "Submitting...";
-    statusMessage.classList.add("status-message");
+        statusMessage.textContent = "Submitting...";
+        statusMessage.classList.add("status-message");
 
-    const formData = new FormData(form);
-    
-    // Read the uploaded file
-    const fileInput = document.getElementById("image");
-    const file = fileInput.files[0];
+        const formData = new FormData(form);
+        
+        const fileInput = document.getElementById("image");
+        const file = fileInput.files[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        formData.append("imageData", reader.result); // Convert image to Base64
-        sendData(formData);
-      };
-    } else {
-      sendData(formData); // If no file, send form without image
-    }
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = function () {
+            formData.append("imageData", reader.result);
+            sendData(formData);
+          };
+        } else {
+          sendData(formData);
+        }
 
-    function sendData(formData) {
-      fetch(scriptURL, {
-        method: "POST",
-        body: formData,
-      })
-        .then(() => {
-          statusMessage.textContent = "Thank you! Your submission was received.";
-          statusMessage.classList.add("success");
-          form.reset();
-        })
-        .catch((error) => {
-          statusMessage.textContent = "Oops! There was a problem submitting your form.";
-          statusMessage.classList.add("error");
-          console.error("Error!", error.message);
-        });
-    }
-  });
-
-        </script>        
+        function sendData(formData) {
+          fetch(scriptURL, {
+            method: "POST",
+            body: formData,
+          })
+            .then(() => {
+              statusMessage.textContent = "Thank you! Your submission was received.";
+              statusMessage.classList.add("success");
+              form.reset();
+            })
+            .catch((error) => {
+              statusMessage.textContent = "Oops! There was a problem submitting your form.";
+              statusMessage.classList.add("error");
+              console.error("Error!", error.message);
+            });
+        }
+      });
+    </script>        
   </body>
 </html>
