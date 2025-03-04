@@ -6,13 +6,13 @@
     <title>Form Submission</title>
     <style>
       :root {
-        --bg-primary: #121212;
-        --bg-secondary: #1e1e1e;
-        --text-primary: #e0e0e0;
-        --text-secondary: #b0b0b0;
-        --accent-color: #81c784;
-        --accent-hover: #66bb6a;
-        --border-color: #444;
+        --bg-primary: #0d1b2a; /* Deep navy blue */
+        --bg-secondary: #1f3d5c; /* Slightly lighter blue */
+        --text-primary: #e6f1ff; /* Soft light blue */
+        --text-secondary: #a4c4e6; /* Muted blue-gray */
+        --accent-color: #4a90e2; /* Bright but soft blue */
+        --accent-hover: #6ab0ff; /* Lighter blue on hover */
+        --border-color: #2c4a6b; /* Dark blue border */
       }
 
       * {
@@ -23,7 +23,7 @@
       }
 
       body {
-        font-family: 'Inter', Arial, sans-serif;
+        font-family: "Inter", Arial, sans-serif;
         background-color: var(--bg-primary);
         color: var(--text-primary);
         line-height: 1.6;
@@ -58,8 +58,8 @@
         font-weight: 500;
       }
 
-      input, 
-      textarea, 
+      input,
+      textarea,
       select {
         width: 100%;
         padding: 12px;
@@ -71,8 +71,8 @@
         transition: border-color 0.3s, box-shadow 0.3s;
       }
 
-      input:focus, 
-      textarea:focus, 
+      input:focus,
+      textarea:focus,
       select:focus {
         border-color: var(--accent-color);
         box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
@@ -131,104 +131,160 @@
           padding: 20px;
         }
       }
+      .logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .logo {
+        max-width: 200px;
+        height: auto;
+        filter: grayscale(20%) brightness(120%);
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
     </style>
   </head>
   <body>
     <div class="container">
+      <div class="logo-container">
+        <img src="assets/iste.png" alt="Farewell Party Logo" class="logo" />
+      </div>
       <h2>Submit Your Information</h2>
       <form id="submitForm" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" required placeholder="Enter your full name" />
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            placeholder="Enter your full name"
+          />
         </div>
-    
+
         <div class="form-group">
-            <label for="rollno">Roll number</label>
-            <input type="text" id="rollno" name="rollno" required placeholder="Enter your roll number" />
+          <label for="rollno">Roll number</label>
+          <input
+            type="text"
+            id="rollno"
+            name="rollno"
+            required
+            placeholder="Enter your roll number"
+          />
         </div>
-    
+
         <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required placeholder="Enter your email" />
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="Enter your email"
+          />
         </div>
-    
+
         <div class="form-group">
-            <label for="attending">Will you be able to attend?</label>
-            <select id="attending" name="attending" required>
-                <option value="" disabled selected>Select</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
+          <label for="attending">Will you be able to attend?</label>
+          <select id="attending" name="attending" required>
+            <option value="" disabled selected>Select</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
         </div>
-    
+
         <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number"/>
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            required
+            placeholder="Enter your phone number"
+          />
         </div>
-    
+
         <div class="form-group">
-            <label for="message">Any message for your juniors?</label>
-            <textarea id="message" name="message" required placeholder="Write your message here..."></textarea>
+          <label for="message">Any message for your juniors?</label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            placeholder="Write your message here..."
+          ></textarea>
         </div>
-    
+
         <div class="form-group">
-            <label for="image">Upload a childhood pic of yours</label>
-            <input type="file" id="image" name="image" accept="image/*" required />
+          <label for="image">Upload a childhood pic of yours</label>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            required
+          />
         </div>
-    
+
         <button type="submit" class="submit-btn">Submit</button>
       </form>
-    
+
       <div id="status-message"></div>
     </div>
 
     <script>
-    document
-      .getElementById("submitForm")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
+      document
+        .getElementById("submitForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-        const form = e.target;
-        const statusMessage = document.getElementById("status-message");
-        const scriptURL =
-          "https://script.google.com/macros/s/AKfycbytUkL0gqoIV2_9DZHgxbmSy9s97kb2umr-eUs0pXMVbvPSgZh3AXLffR74HipYv9lh/exec";
+          const form = e.target;
+          const statusMessage = document.getElementById("status-message");
+          const scriptURL =
+            "https://script.google.com/macros/s/AKfycbytUkL0gqoIV2_9DZHgxbmSy9s97kb2umr-eUs0pXMVbvPSgZh3AXLffR74HipYv9lh/exec";
 
-        statusMessage.textContent = "Submitting...";
-        statusMessage.classList.add("status-message");
+          statusMessage.textContent = "Submitting...";
+          statusMessage.classList.add("status-message");
 
-        const formData = new FormData(form);
-        
-        const fileInput = document.getElementById("image");
-        const file = fileInput.files[0];
+          const formData = new FormData(form);
 
-        if (file) {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = function () {
-            formData.append("imageData", reader.result);
+          const fileInput = document.getElementById("image");
+          const file = fileInput.files[0];
+
+          if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+              formData.append("imageData", reader.result);
+              sendData(formData);
+            };
+          } else {
             sendData(formData);
-          };
-        } else {
-          sendData(formData);
-        }
+          }
 
-        function sendData(formData) {
-          fetch(scriptURL, {
-            method: "POST",
-            body: formData,
-          })
-            .then(() => {
-              statusMessage.textContent = "Thank you! Your submission was received.";
-              statusMessage.classList.add("success");
-              form.reset();
+          function sendData(formData) {
+            fetch(scriptURL, {
+              method: "POST",
+              body: formData,
             })
-            .catch((error) => {
-              statusMessage.textContent = "Oops! There was a problem submitting your form.";
-              statusMessage.classList.add("error");
-              console.error("Error!", error.message);
-            });
-        }
-      });
-    </script>        
+              .then(() => {
+                statusMessage.textContent =
+                  "Thank you! Your submission was received.";
+                statusMessage.classList.add("success");
+                form.reset();
+              })
+              .catch((error) => {
+                statusMessage.textContent =
+                  "Oops! There was a problem submitting your form.";
+                statusMessage.classList.add("error");
+                console.error("Error!", error.message);
+              });
+          }
+        });
+    </script>
   </body>
 </html>
