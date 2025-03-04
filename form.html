@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Submission</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+      .submit-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+      .submit-btn:hover {
+        background-color: #45a049;
+      }
+      #status-message {
+        margin-top: 20px;
+        text-align: center;
+        padding: 10px;
+        border-radius: 4px;
+      }
+      .success {
+        background-color: #dff0d8;
+        color: #3c763d;
+        border: 1px solid #d6e9c6;
+      }
+      .error {
+        background-color: #f2dede;
+        color: #a94442;
+        border: 1px solid #ebccd1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Submit Your Information</h2>
+      <form id="submitForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required />
+        </div>
+    
+        <div class="form-group">
+            <label for="rollno">Roll number</label>
+            <input type="text" id="rollno" name="rollno" required />
+        </div>
+    
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required />
+        </div>
+    
+        <div class="form-group">
+            <label for="attending">Will you be able to attend?</label>
+            <select id="attending" name="attending" required>
+                <option value="" disabled selected>Select an option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" />
+        </div>
+    
+        <div class="form-group">
+            <label for="message">Any message for your juniors?</label>
+            <textarea id="message" name="message" required></textarea>
+        </div>
+    
+        <div class="form-group">
+            <label for="image">Upload Image</label>
+            <input type="file" id="image" name="image" accept="image/*" required />
+        </div>
+    
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
+    
+    <div id="status-message"></div>
+    
+    </div>
+
+    <script>
+    document
+  .getElementById("submitForm")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const statusMessage = document.getElementById("status-message");
+    const scriptURL =
+      "https://script.google.com/macros/s/AKfycbytUkL0gqoIV2_9DZHgxbmSy9s97kb2umr-eUs0pXMVbvPSgZh3AXLffR74HipYv9lh/exec";
+
+    statusMessage.textContent = "Submitting...";
+    statusMessage.classList.add("status-message");
+
+    const formData = new FormData(form);
+    
+    // Read the uploaded file
+    const fileInput = document.getElementById("image");
+    const file = fileInput.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        formData.append("imageData", reader.result); // Convert image to Base64
+        sendData(formData);
+      };
+    } else {
+      sendData(formData); // If no file, send form without image
+    }
+
+    function sendData(formData) {
+      fetch(scriptURL, {
+        method: "POST",
+        body: formData,
+      })
+        .then(() => {
+          statusMessage.textContent = "Thank you! Your submission was received.";
+          statusMessage.classList.add("success");
+          form.reset();
+        })
+        .catch((error) => {
+          statusMessage.textContent = "Oops! There was a problem submitting your form.";
+          statusMessage.classList.add("error");
+          console.error("Error!", error.message);
+        });
+    }
+  });
+
+        </script>        
+  </body>
+</html>
