@@ -1,103 +1,278 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Form Submission</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --bg-primary: #0d1b2a; /* Deep navy blue */
-        --bg-secondary: #1f3d5c; /* Slightly lighter blue */
-        --text-primary: #e6f1ff; /* Soft light blue */
-        --text-secondary: #a4c4e6; /* Muted blue-gray */
-        --accent-color: #4a90e2; /* Bright but soft blue */
-        --accent-hover: #6ab0ff; /* Lighter blue on hover */
-        --border-color: #2c4a6b; /* Dark blue border */
+        --bg-primary: #1a0e0a;
+        --bg-secondary: #261510;
+        --bg-card: #2e1a12;
+        --text-primary: #f5e6d8;
+        --text-secondary: #c4a082;
+        --accent-color: #d4824a;
+        --accent-hover: #e8a06a;
+        --accent-glow: rgba(212, 130, 74, 0.25);
+        --border-color: #4a2e1e;
+        --gold: #c9a96e;
+        --rose: #b06070;
       }
 
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        transition: background-color 0.3s, color 0.3s;
       }
 
       body {
-        font-family: "Inter", Arial, sans-serif;
+        font-family: "DM Sans", sans-serif;
         background-color: var(--bg-primary);
         color: var(--text-primary);
         line-height: 1.6;
-        padding: 20px;
+        min-height: 100vh;
+        background-image:
+          radial-gradient(ellipse 80% 50% at 50% -10%, rgba(180, 80, 40, 0.18) 0%, transparent 70%),
+          radial-gradient(ellipse 40% 30% at 80% 80%, rgba(120, 40, 60, 0.12) 0%, transparent 60%);
+      }
+
+      /* Decorative top band */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--rose), var(--gold), var(--accent-color), var(--gold), var(--rose));
+        z-index: 100;
+      }
+
+      .page-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 60px 20px 60px;
+      }
+
+      /* Header area above card */
+      .page-header {
+        text-align: center;
+        margin-bottom: 36px;
+        animation: fadeDown 0.7s ease both;
+      }
+
+      .page-header .eyebrow {
+        font-family: "DM Sans", sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 10px;
+      }
+
+      .page-header h1 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.4rem, 5vw, 3.6rem);
+        font-weight: 600;
+        color: var(--text-primary);
+        line-height: 1.15;
+      }
+
+      .page-header h1 em {
+        font-style: italic;
+        color: var(--accent-color);
+      }
+
+      .page-header .subtitle {
+        margin-top: 10px;
+        font-size: 14px;
+        color: var(--text-secondary);
+        font-weight: 300;
+        letter-spacing: 0.03em;
+      }
+
+      /* Decorative divider */
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 16px auto 0;
+        width: fit-content;
+      }
+      .divider span {
+        display: block;
+        height: 1px;
+        width: 48px;
+        background: linear-gradient(90deg, transparent, var(--gold));
+      }
+      .divider span:last-child {
+        background: linear-gradient(90deg, var(--gold), transparent);
+      }
+      .divider .diamond {
+        width: 6px; height: 6px;
+        background: var(--gold);
+        transform: rotate(45deg);
+        flex-shrink: 0;
       }
 
       .container {
-        max-width: 500px;
-        margin: 40px auto;
-        background-color: var(--bg-secondary);
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(255, 255, 255, 0.05);
+        width: 100%;
+        max-width: 520px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 40px 36px;
+        box-shadow:
+          0 24px 64px rgba(0,0,0,0.5),
+          0 0 0 1px rgba(201, 169, 110, 0.08) inset,
+          0 1px 0 rgba(201, 169, 110, 0.15) inset;
+        animation: fadeUp 0.7s ease 0.1s both;
+        position: relative;
+        overflow: hidden;
       }
 
-      h2 {
-        text-align: center;
-        color: var(--text-primary);
-        margin-bottom: 25px;
-        font-weight: 600;
+      /* Subtle corner ornament */
+      .container::after {
+        content: '';
+        position: absolute;
+        top: 0; right: 0;
+        width: 120px; height: 120px;
+        background: radial-gradient(circle at top right, rgba(180, 80, 50, 0.1), transparent 70%);
+        pointer-events: none;
+      }
+
+      .logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 28px;
+      }
+
+      .logo {
+        max-width: 160px;
+        height: auto;
+        filter: brightness(90%) sepia(20%) hue-rotate(-10deg);
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.04);
+      }
+
+      /* Two-column layout for short fields */
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
       }
 
       .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 18px;
         position: relative;
       }
 
       label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 7px;
         color: var(--text-secondary);
+        font-size: 12px;
         font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
 
       input,
       textarea,
       select {
         width: 100%;
-        padding: 12px;
+        padding: 11px 14px;
         border: 1px solid var(--border-color);
         border-radius: 8px;
-        background-color: var(--bg-primary);
+        background-color: rgba(26, 14, 10, 0.7);
         color: var(--text-primary);
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
         outline: none;
-        transition: border-color 0.3s, box-shadow 0.3s;
+        transition: border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: rgba(196, 160, 130, 0.35);
       }
 
       input:focus,
       textarea:focus,
       select:focus {
         border-color: var(--accent-color);
-        box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
+        background-color: rgba(26, 14, 10, 0.9);
+        box-shadow: 0 0 0 3px var(--accent-glow);
+      }
+
+      select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c4a082' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
+        cursor: pointer;
+      }
+
+      select option {
+        background-color: #2e1a12;
       }
 
       textarea {
         resize: vertical;
-        min-height: 120px;
+        min-height: 110px;
+      }
+
+      input[type="file"] {
+        padding: 9px 14px;
+        cursor: pointer;
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+
+      input[type="file"]::-webkit-file-upload-button {
+        background: var(--border-color);
+        color: var(--text-secondary);
+        border: none;
+        border-radius: 5px;
+        padding: 5px 12px;
+        font-size: 12px;
+        font-family: "DM Sans", sans-serif;
+        cursor: pointer;
+        margin-right: 10px;
+        transition: background 0.2s;
+      }
+
+      input[type="file"]::-webkit-file-upload-button:hover {
+        background: var(--accent-color);
+        color: var(--bg-primary);
       }
 
       .submit-btn {
         width: 100%;
         padding: 14px;
-        background-color: var(--accent-color);
-        color: var(--bg-primary);
+        background: linear-gradient(135deg, var(--accent-color) 0%, #b86030 100%);
+        color: #fff;
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        font-size: 16px;
-        font-weight: 600;
-        transition: background-color 0.3s ease, transform 0.1s;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: "DM Sans", sans-serif;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: opacity 0.2s, transform 0.1s, box-shadow 0.2s;
+        margin-top: 6px;
+        box-shadow: 0 4px 20px rgba(212, 130, 74, 0.3);
       }
 
       .submit-btn:hover {
-        background-color: var(--accent-hover);
+        opacity: 0.9;
+        box-shadow: 0 6px 28px rgba(212, 130, 74, 0.45);
       }
 
       .submit-btn:active {
@@ -105,188 +280,154 @@
       }
 
       #status-message {
-        margin-top: 20px;
+        margin-top: 18px;
         text-align: center;
-        padding: 12px;
+        padding: 12px 16px;
         border-radius: 8px;
+        font-size: 14px;
         font-weight: 500;
+        display: none;
       }
 
+      #status-message.visible { display: block; }
+
       .success {
-        background-color: rgba(76, 175, 80, 0.2);
-        color: #81c784;
-        border: 1px solid rgba(76, 175, 80, 0.3);
+        background-color: rgba(76, 175, 80, 0.12);
+        color: #90c98a;
+        border: 1px solid rgba(76, 175, 80, 0.25);
       }
 
       .error {
-        background-color: rgba(244, 67, 54, 0.2);
-        color: #ef5350;
-        border: 1px solid rgba(244, 67, 54, 0.3);
+        background-color: rgba(244, 67, 54, 0.12);
+        color: #ef8080;
+        border: 1px solid rgba(244, 67, 54, 0.25);
       }
 
-      @media (max-width: 600px) {
-        .container {
-          width: 95%;
-          margin: 20px auto;
-          padding: 20px;
-        }
-      }
-      .logo-container {
-        display: flex;
-        justify-content: center; /* Horizontally center */
-        align-items: center; /* Vertically center */
-        margin-bottom: 30px;
+      @keyframes fadeDown {
+        from { opacity: 0; transform: translateY(-18px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
 
-      .logo {
-        max-width: 200px;
-        height: auto;
-        filter: grayscale(20%) brightness(120%);
-        transition: transform 0.3s ease;
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
 
-      .logo:hover {
-        transform: scale(1.05);
+      @media (max-width: 560px) {
+        .container { padding: 28px 20px; }
+        .form-row { grid-template-columns: 1fr; gap: 0; }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="logo-container">
-        <img src="assets/iste.png" alt="Farewell Party Logo" class="logo" />
+    <div class="page-wrapper">
+
+      <div class="page-header">
+        <p class="eyebrow">ISTE &nbsp;·&nbsp; Farewell 2025</p>
+        <h1>Until We Meet <em>Again</em></h1>
+        <p class="subtitle">Confirm your presence &amp; leave something behind</p>
+        <div class="divider">
+          <span></span><div class="diamond"></div><span></span>
+        </div>
       </div>
-      <h2>Confirm Your Presence</h2>
-      <form id="submitForm" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="name">Full Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            placeholder="Enter your full name"
-          />
+
+      <div class="container">
+        <div class="logo-container">
+          <img src="assets/iste.png" alt="Farewell Party Logo" class="logo" />
         </div>
 
-        <div class="form-group">
-          <label for="rollno">Roll number</label>
-          <input
-            type="text"
-            id="rollno"
-            name="rollno"
-            required
-            placeholder="Enter your roll number"
-          />
-        </div>
+        <form id="submitForm" enctype="multipart/form-data">
 
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            placeholder="Enter your email"
-          />
-        </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label for="rollno">Roll Number</label>
+              <input type="text" id="rollno" name="rollno" required placeholder="e.g. 221CS001" />
+            </div>
+          </div>
 
-        <div class="form-group">
-          <label for="attending">Will you be joining us for the celebration?</label>
-          <select id="attending" name="attending" required>
-            <option value="" disabled selected>Select</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required placeholder="you@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" required placeholder="+91 XXXXX XXXXX" />
+            </div>
+          </div>
 
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            required
-            placeholder="Enter your phone number"
-          />
-        </div>
+          <div class="form-group">
+            <label for="attending">Will you be joining us for the celebration?</label>
+            <select id="attending" name="attending" required>
+              <option value="" disabled selected>Select an option</option>
+              <option value="yes">Yes, I'll be there ✦</option>
+              <option value="no">No, I can't make it</option>
+            </select>
+          </div>
 
-        <div class="form-group">
-          <label for="message">Any message for your juniors?</label>
-          <textarea
-            id="message"
-            name="message"
-            required
-            placeholder="Write your message here..."
-          ></textarea>
-        </div>
+          <div class="form-group">
+            <label for="message">A message for your juniors</label>
+            <textarea id="message" name="message" required placeholder="Share your wisdom, memories, or just a heartfelt goodbye..."></textarea>
+          </div>
 
-        <div class="form-group">
-          <label for="image">Share a cherished memory from your first year at college through an unforgettable snapshot (Image).</label>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            accept="image/*"
-            required
-          />
-        </div>
+          <div class="form-group">
+            <label for="image">A snapshot from your first year</label>
+            <input type="file" id="image" name="image" accept="image/*" required />
+          </div>
 
-        <button type="submit" class="submit-btn">Submit</button>
-      </form>
+          <button type="submit" class="submit-btn">Confirm Presence</button>
+        </form>
 
-      <div id="status-message"></div>
+        <div id="status-message"></div>
+      </div>
+
     </div>
 
     <script>
-      document
-        .getElementById("submitForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+      document.getElementById("submitForm").addEventListener("submit", function (e) {
+        e.preventDefault();
 
-          const form = e.target;
-          const statusMessage = document.getElementById("status-message");
-          const scriptURL =
-            "https://script.google.com/macros/s/AKfycbzLP5-G1LuNMr4Y3Y9sGBSFkJB_-gQaAZGFaqPV0fsWio3GVd9i84TVaqFSycWIAn1Y/exec";
+        const form = e.target;
+        const statusMessage = document.getElementById("status-message");
+        const scriptURL =
+          "https://script.google.com/macros/s/AKfycbzLP5-G1LuNMr4Y3Y9sGBSFkJB_-gQaAZGFaqPV0fsWio3GVd9i84TVaqFSycWIAn1Y/exec";
 
-          statusMessage.textContent = "Submitting...";
-          statusMessage.classList.add("status-message");
+        statusMessage.textContent = "Submitting...";
+        statusMessage.className = "visible";
 
-          const formData = new FormData(form);
+        const formData = new FormData(form);
+        const fileInput = document.getElementById("image");
+        const file = fileInput.files[0];
 
-          const fileInput = document.getElementById("image");
-          const file = fileInput.files[0];
-
-          if (file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-              formData.append("imageData", reader.result);
-              sendData(formData);
-            };
-          } else {
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = function () {
+            formData.append("imageData", reader.result);
             sendData(formData);
-          }
+          };
+        } else {
+          sendData(formData);
+        }
 
-          function sendData(formData) {
-            fetch(scriptURL, {
-              method: "POST",
-              body: formData,
+        function sendData(formData) {
+          fetch(scriptURL, { method: "POST", body: formData })
+            .then(() => {
+              statusMessage.textContent = "Thank you! Your submission was received.";
+              statusMessage.className = "visible success";
+              form.reset();
             })
-              .then(() => {
-                statusMessage.textContent =
-                  "Thank you! Your submission was received.";
-                statusMessage.classList.add("success");
-                form.reset();
-              })
-              .catch((error) => {
-                statusMessage.textContent =
-                  "Oops! There was a problem submitting your form.";
-                statusMessage.classList.add("error");
-                console.error("Error!", error.message);
-              });
-          }
-        });
+            .catch((error) => {
+              statusMessage.textContent = "Oops! There was a problem submitting your form.";
+              statusMessage.className = "visible error";
+              console.error("Error!", error.message);
+            });
+        }
+      });
     </script>
   </body>
 </html>
-
